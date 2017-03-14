@@ -1,0 +1,27 @@
+<html>
+    <head>
+        <title>Choose Major Program</title>
+    </head>
+    <body>
+        <div id="header">
+            <h1>Choose Major Program</h1>
+        </div>
+        <div class="frame"> 
+            <form name="form" action="{% url 'choose_majortaken' %}" method="GET">
+                {% csrf_token %}
+                <ul>
+                <select name="major_choice">
+                {% for track, value in choices %}
+                    <option value="{{ track }}">{{ track }}</option>
+                {% endfor %}
+                </select>
+                </ul>
+                <ul>
+                <lable for="start_quarter">Start Quarter (e.g. "Spring 17") </label>
+                <input type="text" name="start_quarter" required />
+                </ul>
+                <input type="submit" value="Submit" />
+            </form>
+        </div>
+    </body>
+</html>

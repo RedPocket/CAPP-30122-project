@@ -1,0 +1,31 @@
+<html>
+    <head>
+        <title>Choose Courses You Want to Take</title>
+    </head>
+    <body>
+        <div id="header">
+            <h1>Choose Courses You Want to Take</h1>
+        </div>
+        <div class="frame"> 
+            <form name="form" action="{% url 'schedules' %}" method="GET">
+                {% csrf_token %}
+                <ul>
+                <label for="rest_pre_courses">Prescribed Courses: </label>
+                {% for pre_course in rest_pre_courses %}
+                    {% if pre_course %}
+                        <input type="checkbox" name="pre_course" value="{{pre_course}}">{{pre_course}}</input>
+                    {% endif %}
+                {% endfor %}
+                </ul>
+                <label for="rest_elec_courses">Elective Courses: </label>
+                {% for elec_course in rest_elec_courses %}
+                    {% if elec_course %}
+                        <input type="checkbox" name="elec_course" value="{{elec_course}}">{{elec_course}}</input>
+                    {% endif %}
+                {% endfor %}
+                </ul>
+                <input type="submit" value="Submit" />
+            </form>
+        </div>
+    </body>
+</html>

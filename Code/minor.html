@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <title>Choose Minor Program</title>
+    </head>
+    <body>
+        <div id="header">
+            <h1>Choose Minor Program</h1>
+        </div>
+        <div class="frame"> 
+            <form name="form" action="{% url 'choose_minortaken' %}" method="GET">
+                {% csrf_token %}
+                <ul>
+                <select name="minor_choice">
+                {% for track, value in choices %}
+                    <option value="{{ track }}">{{ track }}</option>
+                {% endfor %}
+                </select>
+                </ul>
+                <input type="submit" value="Submit" />
+            </form>
+        </div>
+    </body>
+</html>

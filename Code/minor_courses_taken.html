@@ -1,0 +1,31 @@
+<html>
+    <head>
+        <title>Choose Courses You Have Taken</title>
+    </head>
+    <body>
+        <div id="header">
+            <h1>Choose Courses You Have Taken</h1>
+        </div>
+        <div class="frame"> 
+            <form name="form" action="{% url 'choose_minortotake' %}" method="GET">
+                {% csrf_token %}
+                <ul>
+                {% for pre_course in PRESCRIBED %}
+                    {% if pre_course %}
+                        <input type="checkbox" name="pre_course" value="{{pre_course}}">{{pre_course}}</input>
+                    {% endif %}
+                {% endfor %}
+                </ul>
+                {% if ELECTIVE %}
+                    {% for elec_course in ELECTIVE %}
+                        {% if elec_course %}
+                            <input type="checkbox" name="elec_course" value="{{elec_course}}">{{elec_course}}</input>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+                </ul>
+                <input type="submit" value="Submit" />
+            </form>
+        </div>
+    </body>
+</html>
