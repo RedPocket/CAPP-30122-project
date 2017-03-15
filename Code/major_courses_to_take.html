@@ -9,21 +9,47 @@
         <div class="frame"> 
             <form name="form" action="{% url 'choose_minor' %}" method="GET">
                 {% csrf_token %}
+                {% if rest_pre_courses %}
+                    <ul>
+                    <label for="rest_pre_courses">Prescribed Courses: </label>
+                    </ul>
+                    <ul>
+                    {% for pre_course in rest_pre_courses %}
+                        {% if pre_course %}
+                            <input type="checkbox" name="pre_course" value="{{pre_course}}">{{pre_course}}</input>
+                        {% endif %}
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+                {% if rest_elec_courses %}
+                    <ul>
+                    <label for="rest_elec_courses">Elective Courses: </label>
+                    </ul>
+                    <ul>
+                    {% for elec_course in rest_elec_courses %}
+                        {% if elec_course %}
+                            <input type="checkbox" name="elec_course" value="{{elec_course}}">{{elec_course}}</input>
+                        {% endif %}
+                    {% endfor %}
+                    </ul>
+                {% endif %}
                 <ul>
-                <label for="rest_pre_courses">Prescribed Courses: </label>
-                {% for pre_course in rest_pre_courses %}
-                    {% if pre_course %}
-                        <input type="checkbox" name="pre_course" value="{{pre_course}}">{{pre_course}}</input>
-                    {% endif %}
-                {% endfor %}
+                <lable for="major_other_0">Other Courses: </label>
                 </ul>
                 <ul>
-                <label for="rest_elec_courses">Elective Courses: </label>
-                {% for elec_course in rest_elec_courses %}
-                    {% if elec_course %}
-                        <input type="checkbox" name="elec_course" value="{{elec_course}}">{{elec_course}}</input>
-                    {% endif %}
-                {% endfor %}
+                <input type="text" name="major_other_0" />
+                </ul>
+                <ul>
+                <input type="text" name="major_other_1" />
+                </ul>
+                <ul>
+                <input type="text" name="major_other_2" />
+                </ul>
+                <ul>
+                <input type="text" name="major_other_3" />
+                </ul>
+                <ul>
+                <input type="text" name="major_other_4" />
                 </ul>
                 <ul>
                 <input type="submit" value="Submit" />

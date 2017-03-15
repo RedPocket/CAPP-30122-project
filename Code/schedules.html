@@ -1,29 +1,29 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'courses/style.css' %}" />
+
 <html>
     <head>
-        <title>Your Schedules</title>
+        <title>Course Schedule</title>
     </head>
     <body>
         <div id="header">
-            <h1>Your Schedules</h1>
+            <h1>Course Schedule</h1>
         </div>
         <div class="frame"> 
-            <form name="form" action="{% url 'schedules' %}" method="GET">
+            <form name="form" action="{% url 'schedules' %}">
                 {% csrf_token %}
                 <ul>
-                <table summary="Course Schedule I">
+                <table class="course-schedule">
+                <tr colspan=2>
                 <tr><th>Terms</th><th>Courses</th>
-                {% for key, value in schedule1 %}
-                    <tr><td>{{ key }}</td><td>{{ value }}</td></tr>
-                {% endfor %}
+                    {% for obj in schedule %}
+                        <tr><td>{{ obj.0 }}</td> <td>{{ obj.1 }}</td></tr>
+                    {% endfor %}
+                    </tr>
                 </table>
                 </ul>
                 <ul>
-                <table summary="Course Schedule II">
-                <tr><th>Terms</th><th>Courses</th>
-                {% for key, value in schedule2 %}
-                    <tr><td>{{ key }}</td><td>{{ value }}</td></tr>         
-                {% endfor %}
-                </table>
+                Go back: <a href="{% url 'choose_major' %}">Homepage</a>
                 </ul>
             </form>
         </div>
