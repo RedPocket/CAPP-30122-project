@@ -132,7 +132,7 @@ WORDS_IGNORE = set(['also',  'an',  'and',  'are', 'as',  'at',  'be', 'been',
                     'seem', 'these', 'they', 'if', 'has', 'did', 'some', 'our'])
 
 
-def build_index_for_a_program(program_url):
+def build_index_for_a_program(program, program_url):
     '''
     Find information(build a index) for a program from a single url
     '''
@@ -154,7 +154,7 @@ def build_index_for_a_program(program_url):
                 
                 # no subsequence
                 if sequences == []: 
-                    index = scrape_course_info(div_tag, index, words_from_sequence = set())
+                    index = scrape_course_info(tag=div_tag, index=index, words_from_sequence=set(), program=program)
                 
                 # has subsequence
                 else:
@@ -167,7 +167,7 @@ def build_index_for_a_program(program_url):
                     words_from_sequence = words_from_sequence - WORDS_IGNORE
                     
                     for sequence in sequences:
-                        index = scrape_course_info(sequence, index, words_from_sequence)
+                        index = scrape_course_info(sequence, index, words_from_sequence, program)
     
     return index
 
@@ -183,7 +183,7 @@ def extract_words(tag, attr):
     return words
     
 
-def scrape_course_info(tag, index, words_from_sequence):
+def scrape_course_info(tag, index, words_from_sequence, program):
     '''
     Given one course, aka, one courseblock main
     Find course_code, course_unit, course_title from courseblocktitle
@@ -255,6 +255,7 @@ def scrape_course_info(tag, index, words_from_sequence):
         
     if course_code not in index:
         index[course_code] = {}
+        index[course_code]['program'] = program
         index[course_code]['course_code'] = course_code
         index[course_code]['course_title'] = course_title
         index[course_code]['course_unit'] = course_unit
@@ -303,7 +304,7 @@ program_urls = extract_program_url(start_url)
 
 information = {}
 for program, program_url in program_urls.items():
-    information[program] = build_index_for_a_program(program_url)
+    information[program] = build_index_for_a_program(program, program_url)
     
 words_ANTH_23091 = re.findall("[a-zA-Z][a-zA-Z0-9]*", "“Progress,” and its derived concept of “development” have \
 puzzled Latin Americans throughout their modern history: they were an ambitious goal and a challenge for intellectual\
@@ -758,7 +759,7 @@ df_prerequisites['course_code'] = df_prerequisites[0] + ' ' + df_prerequisites[1
 df_terms = pd.DataFrame(df_course.terms_offered.apply(lambda x: pd.Series(x.split(','))))
 df_terms = df_terms.rename(columns = {0:'term1', 1:'term2', 2:'term3', 3:'term4'})
 
-df_course[['course_title', 'course_unit', 'equivalent_courses', 'instructors',
+df_course[['course_title', 'program', 'course_unit', 'equivalent_courses', 'instructors',
            'notes']].to_csv('course_info.csv', sep = ',', encoding = 'utf-8')
 
 df_words.to_csv('course_word.csv', sep = ',', encoding = 'utf-8')
